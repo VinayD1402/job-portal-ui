@@ -802,3 +802,79 @@ section {
         padding: 25px 20px;
     }
 }
+<<<<<<< HEAD
+=======
+/* Dark mode toggle button */
+.theme-toggle {
+    padding: 10px 14px;
+    margin-left: 10px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
+    background-color: #e2e8f0;
+    color: #1e293b;
+}
+
+/* Smooth colour change */
+body,
+header,
+section,
+article,
+input,
+select,
+footer {
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Dark mode */
+body.dark-mode {
+    background-color: #0f172a;
+    color: #e2e8f0;
+}
+
+body.dark-mode header {
+    background-color: #1e293b;
+}
+
+body.dark-mode nav a {
+    color: #e2e8f0;
+}
+
+body.dark-mode section {
+    background-color: #0f172a;
+}
+
+body.dark-mode section:first-of-type {
+    background: linear-gradient(to right, #1e3a8a, #0f172a);
+}
+
+body.dark-mode section h2,
+body.dark-mode article h3 {
+    color: #f8fafc;
+}
+
+body.dark-mode article,
+body.dark-mode section:nth-of-type(4) div div,
+body.dark-mode section:nth-of-type(5) div div,
+body.dark-mode section:nth-of-type(6) div {
+    background-color: #1e293b;
+    color: #e2e8f0;
+}
+
+body.dark-mode input,
+body.dark-mode select {
+    background-color: #334155;
+    color: white;
+    border-color: #475569;
+}
+
+body.dark-mode input::placeholder {
+    color: #cbd5e1;
+}
+
+body.dark-mode .theme-toggle {
+    background-color: #334155;
+    color: white;
+}
+>>>>>>> fd5436b (Dark toggle Add)

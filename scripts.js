@@ -267,3 +267,28 @@ document.addEventListener("keydown", (event) => {
 currentYear.textContent = new Date().getFullYear();
 
 console.log(`Total jobs available: ${jobCards.length}`);
+<<<<<<< HEAD
+=======
+const themeToggle = document.getElementById("themeToggle");
+
+// Load saved theme
+const savedTheme = localStorage.getItem("theme");
+
+if (savedTheme === "dark") {
+    document.body.classList.add("dark-mode");
+    themeToggle.textContent = "☀️";
+}
+
+// Change theme when button is clicked
+themeToggle.addEventListener("click", () => {
+    document.body.classList.toggle("dark-mode");
+
+    if (document.body.classList.contains("dark-mode")) {
+        themeToggle.textContent = "☀️";
+        localStorage.setItem("theme", "dark");
+    } else {
+        themeToggle.textContent = "🌙";
+        localStorage.setItem("theme", "light");
+    }
+});
+>>>>>>> fd5436b (Dark toggle Add)
