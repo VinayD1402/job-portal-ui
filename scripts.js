@@ -1,13 +1,16 @@
 "use strict";
 
+// Navigation
 const menuButton = document.getElementById("menuButton");
 const navbar = document.getElementById("navbar");
 const navLinks = document.querySelectorAll(".navbar a");
 
+// Main buttons
 const loginButton = document.getElementById("loginButton");
 const getStartedButton = document.getElementById("getStartedButton");
 const browseJobsButton = document.getElementById("browseJobsButton");
 
+// Search
 const searchForm = document.getElementById("searchForm");
 const jobTitleInput = document.getElementById("jobTitle");
 const jobLocationInput = document.getElementById("jobLocation");
@@ -15,11 +18,15 @@ const jobCategorySelect = document.getElementById("jobCategory");
 const searchMessage = document.getElementById("searchMessage");
 const jobCards = document.querySelectorAll(".job-card");
 
+// Job buttons
 const detailsButtons = document.querySelectorAll(".details-button");
 const applyButtons = document.querySelectorAll(".apply-button");
 
+// Job details modal
 const detailsModal = document.getElementById("detailsModal");
-const closeDetailsModalButton = document.getElementById("closeDetailsModal");
+const closeDetailsModalButton =
+    document.getElementById("closeDetailsModal");
+
 const modalJobTitle = document.getElementById("modalJobTitle");
 const modalCompany = document.getElementById("modalCompany");
 const modalLocation = document.getElementById("modalLocation");
@@ -27,41 +34,69 @@ const modalSalary = document.getElementById("modalSalary");
 const modalExperience = document.getElementById("modalExperience");
 const modalApplyButton = document.getElementById("modalApplyButton");
 
+// Application modal
 const applicationModal = document.getElementById("applicationModal");
-const closeApplicationModalButton = document.getElementById("closeApplicationModal");
-const applicationForm = document.getElementById("applicationForm");
-const applicationJobTitle = document.getElementById("applicationJobTitle");
+const closeApplicationModalButton =
+    document.getElementById("closeApplicationModal");
 
+const applicationForm = document.getElementById("applicationForm");
+const applicationJobTitle =
+    document.getElementById("applicationJobTitle");
+
+// Newsletter
 const subscribeForm = document.getElementById("subscribeForm");
 const subscribeEmail = document.getElementById("subscribeEmail");
 const subscribeMessage = document.getElementById("subscribeMessage");
 
+// Footer
 const currentYear = document.getElementById("currentYear");
+
+// Dark mode
+const themeToggle = document.getElementById("themeToggle");
 
 let selectedJobTitle = "";
 
+// Mobile menu
 menuButton.addEventListener("click", () => {
     navbar.classList.toggle("show");
 
     const isOpen = navbar.classList.contains("show");
+
     menuButton.textContent = isOpen ? "✕" : "☰";
+
     menuButton.setAttribute(
         "aria-label",
         isOpen ? "Close menu" : "Open menu"
     );
 });
 
+// Navigation links
 navLinks.forEach((link) => {
-    link.addEventListener("click", () => {
+    link.addEventListener("click", (event) => {
         navbar.classList.remove("show");
         menuButton.textContent = "☰";
+        menuButton.setAttribute("aria-label", "Open menu");
+
+        const sectionId = link.getAttribute("href");
+
+        // Home button scrolls completely to the top
+        if (sectionId === "#home") {
+            event.preventDefault();
+
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        }
     });
 });
 
+// Login button
 loginButton.addEventListener("click", () => {
     alert("Login will be available when the backend is added.");
 });
 
+// Get Started button
 getStartedButton.addEventListener("click", () => {
     document.getElementById("search").scrollIntoView({
         behavior: "smooth"
@@ -72,36 +107,55 @@ getStartedButton.addEventListener("click", () => {
     }, 500);
 });
 
+// Browse Jobs button
 browseJobsButton.addEventListener("click", () => {
     document.getElementById("jobs").scrollIntoView({
         behavior: "smooth"
     });
 });
 
+// Search jobs
 searchForm.addEventListener("submit", (event) => {
     event.preventDefault();
 
-    const searchedTitle = jobTitleInput.value.trim().toLowerCase();
-    const searchedLocation = jobLocationInput.value.trim().toLowerCase();
-    const selectedCategory = jobCategorySelect.value.toLowerCase();
+    const searchedTitle =
+        jobTitleInput.value.trim().toLowerCase();
+
+    const searchedLocation =
+        jobLocationInput.value.trim().toLowerCase();
+
+    const selectedCategory =
+        jobCategorySelect.value.toLowerCase();
 
     let matchingJobs = 0;
 
     jobCards.forEach((jobCard) => {
-        const cardTitle = jobCard.dataset.title.toLowerCase();
-        const cardLocation = jobCard.dataset.location.toLowerCase();
-        const cardCategory = jobCard.dataset.category.toLowerCase();
+        const cardTitle =
+            jobCard.dataset.title.toLowerCase();
+
+        const cardLocation =
+            jobCard.dataset.location.toLowerCase();
+
+        const cardCategory =
+            jobCard.dataset.category.toLowerCase();
 
         const titleMatches =
-            searchedTitle === "" || cardTitle.includes(searchedTitle);
+            searchedTitle === "" ||
+            cardTitle.includes(searchedTitle);
 
         const locationMatches =
-            searchedLocation === "" || cardLocation.includes(searchedLocation);
+            searchedLocation === "" ||
+            cardLocation.includes(searchedLocation);
 
         const categoryMatches =
-            selectedCategory === "all" || cardCategory === selectedCategory;
+            selectedCategory === "all" ||
+            cardCategory === selectedCategory;
 
-        if (titleMatches && locationMatches && categoryMatches) {
+        if (
+            titleMatches &&
+            locationMatches &&
+            categoryMatches
+        ) {
             jobCard.style.display = "flex";
             matchingJobs++;
         } else {
@@ -112,9 +166,12 @@ searchForm.addEventListener("submit", (event) => {
     if (matchingJobs === 0) {
         searchMessage.textContent =
             "No matching jobs found. Try another title or location.";
+
         searchMessage.style.color = "#dc2626";
     } else {
-        searchMessage.textContent = `${matchingJobs} matching job(s) found.`;
+        searchMessage.textContent =
+            `${matchingJobs} matching job(s) found.`;
+
         searchMessage.style.color = "#15803d";
 
         document.getElementById("jobs").scrollIntoView({
@@ -123,12 +180,22 @@ searchForm.addEventListener("submit", (event) => {
     }
 });
 
+// Show all jobs after clearing search
 function showAllJobsWhenSearchIsEmpty() {
-    const titleIsEmpty = jobTitleInput.value.trim() === "";
-    const locationIsEmpty = jobLocationInput.value.trim() === "";
-    const categoryIsAll = jobCategorySelect.value === "all";
+    const titleIsEmpty =
+        jobTitleInput.value.trim() === "";
 
-    if (titleIsEmpty && locationIsEmpty && categoryIsAll) {
+    const locationIsEmpty =
+        jobLocationInput.value.trim() === "";
+
+    const categoryIsAll =
+        jobCategorySelect.value === "all";
+
+    if (
+        titleIsEmpty &&
+        locationIsEmpty &&
+        categoryIsAll
+    ) {
         jobCards.forEach((jobCard) => {
             jobCard.style.display = "flex";
         });
@@ -137,20 +204,38 @@ function showAllJobsWhenSearchIsEmpty() {
     }
 }
 
-jobTitleInput.addEventListener("input", showAllJobsWhenSearchIsEmpty);
-jobLocationInput.addEventListener("input", showAllJobsWhenSearchIsEmpty);
-jobCategorySelect.addEventListener("change", showAllJobsWhenSearchIsEmpty);
+jobTitleInput.addEventListener(
+    "input",
+    showAllJobsWhenSearchIsEmpty
+);
 
+jobLocationInput.addEventListener(
+    "input",
+    showAllJobsWhenSearchIsEmpty
+);
+
+jobCategorySelect.addEventListener(
+    "change",
+    showAllJobsWhenSearchIsEmpty
+);
+
+// View job details
 detailsButtons.forEach((button) => {
     button.addEventListener("click", () => {
         const jobCard = button.closest(".job-card");
-        const details = jobCard.querySelectorAll(".job-details p");
+        const details =
+            jobCard.querySelectorAll(".job-details p");
 
-        selectedJobTitle = jobCard.querySelector("h3").textContent;
+        selectedJobTitle =
+            jobCard.querySelector("h3").textContent;
 
         modalJobTitle.textContent = selectedJobTitle;
+
         modalCompany.textContent =
-            `Company: ${jobCard.querySelector(".company-name").textContent}`;
+            `Company: ${
+                jobCard.querySelector(".company-name").textContent
+            }`;
+
         modalLocation.textContent = details[0].textContent;
         modalSalary.textContent = details[1].textContent;
         modalExperience.textContent = details[2].textContent;
@@ -159,45 +244,57 @@ detailsButtons.forEach((button) => {
     });
 });
 
+// Apply buttons
 applyButtons.forEach((button) => {
     button.addEventListener("click", () => {
         const jobCard = button.closest(".job-card");
-        const jobTitle = jobCard.querySelector("h3").textContent;
+
+        const jobTitle =
+            jobCard.querySelector("h3").textContent;
 
         openApplicationForm(jobTitle);
     });
 });
 
+// Close details modal
 closeDetailsModalButton.addEventListener("click", () => {
     closeModal(detailsModal);
 });
 
+// Apply through details modal
 modalApplyButton.addEventListener("click", () => {
     closeModal(detailsModal);
     openApplicationForm(selectedJobTitle);
 });
 
+// Close application modal
 closeApplicationModalButton.addEventListener("click", () => {
     closeModal(applicationModal);
 });
 
+// Open application form
 function openApplicationForm(jobTitle) {
     selectedJobTitle = jobTitle;
     applicationJobTitle.textContent = jobTitle;
+
     openModal(applicationModal);
 }
 
+// Submit application
 applicationForm.addEventListener("submit", (event) => {
     event.preventDefault();
 
     const applicantName =
-        document.getElementById("applicantName").value.trim();
+        document.getElementById("applicantName")
+            .value.trim();
 
     const applicantEmail =
-        document.getElementById("applicantEmail").value.trim();
+        document.getElementById("applicantEmail")
+            .value.trim();
 
     const applicantPhone =
-        document.getElementById("applicantPhone").value.trim();
+        document.getElementById("applicantPhone")
+            .value.trim();
 
     if (
         applicantName === "" ||
@@ -216,6 +313,7 @@ applicationForm.addEventListener("submit", (event) => {
     closeModal(applicationModal);
 });
 
+// Newsletter form
 subscribeForm.addEventListener("submit", (event) => {
     event.preventDefault();
 
@@ -224,6 +322,7 @@ subscribeForm.addEventListener("submit", (event) => {
     if (email === "") {
         subscribeMessage.textContent =
             "Please enter your email address.";
+
         return;
     }
 
@@ -237,16 +336,26 @@ subscribeForm.addEventListener("submit", (event) => {
     }, 5000);
 });
 
+// Open modal
 function openModal(modal) {
     modal.classList.add("show");
     document.body.classList.add("modal-open");
 }
 
+// Close modal
 function closeModal(modal) {
     modal.classList.remove("show");
-    document.body.classList.remove("modal-open");
+
+    const anyModalOpen =
+        detailsModal.classList.contains("show") ||
+        applicationModal.classList.contains("show");
+
+    if (!anyModalOpen) {
+        document.body.classList.remove("modal-open");
+    }
 }
 
+// Close modal by clicking outside
 window.addEventListener("click", (event) => {
     if (event.target === detailsModal) {
         closeModal(detailsModal);
@@ -257,6 +366,7 @@ window.addEventListener("click", (event) => {
     }
 });
 
+// Close modals using Escape key
 document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") {
         closeModal(detailsModal);
@@ -264,31 +374,61 @@ document.addEventListener("keydown", (event) => {
     }
 });
 
-currentYear.textContent = new Date().getFullYear();
-
-console.log(`Total jobs available: ${jobCards.length}`);
-<<<<<<< HEAD
-=======
-const themeToggle = document.getElementById("themeToggle");
-
 // Load saved theme
-const savedTheme = localStorage.getItem("theme");
+function loadSavedTheme() {
+    const savedTheme = localStorage.getItem("theme");
 
-if (savedTheme === "dark") {
-    document.body.classList.add("dark-mode");
-    themeToggle.textContent = "☀️";
+    if (savedTheme === "dark") {
+        document.body.classList.add("dark-mode");
+        themeToggle.textContent = "☀️";
+
+        themeToggle.setAttribute(
+            "aria-label",
+            "Enable light mode"
+        );
+    } else {
+        document.body.classList.remove("dark-mode");
+        themeToggle.textContent = "🌙";
+
+        themeToggle.setAttribute(
+            "aria-label",
+            "Enable dark mode"
+        );
+    }
 }
 
-// Change theme when button is clicked
+// Dark mode toggle
 themeToggle.addEventListener("click", () => {
     document.body.classList.toggle("dark-mode");
 
-    if (document.body.classList.contains("dark-mode")) {
+    const darkModeEnabled =
+        document.body.classList.contains("dark-mode");
+
+    if (darkModeEnabled) {
         themeToggle.textContent = "☀️";
+
+        themeToggle.setAttribute(
+            "aria-label",
+            "Enable light mode"
+        );
+
         localStorage.setItem("theme", "dark");
     } else {
         themeToggle.textContent = "🌙";
+
+        themeToggle.setAttribute(
+            "aria-label",
+            "Enable dark mode"
+        );
+
         localStorage.setItem("theme", "light");
     }
 });
->>>>>>> fd5436b (Dark toggle Add)
+
+// Footer year
+currentYear.textContent = new Date().getFullYear();
+
+// Run saved theme function
+loadSavedTheme();
+
+console.log(`Total jobs available: ${jobCards.length}`);
